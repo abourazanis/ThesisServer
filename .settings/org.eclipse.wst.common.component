@@ -3,6 +3,7 @@
     <wb-module deploy-name="thesis.server">
         <wb-resource deploy-path="/" source-path="/WebContent"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/resources"/>
         <property name="context-root" value="thesis.server"/>
         <property name="java-output-path" value="/thesis.server/build/classes"/>
     </wb-module>

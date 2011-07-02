@@ -3,9 +3,12 @@ package thesis.server.rest;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -16,12 +19,12 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriInfo;
 
-import thesis.server.pedstore.PedInfo;
-import thesis.server.pedstore.PedPackager;
-import thesis.server.pedstore.PedProvider;
+import thesis.server.epubstore.EpubInfo;
+import thesis.server.epubstore.EpubPackager;
+import thesis.server.epubstore.EpubProvider;
 
-@Path("/peds")
-public class PedInfosResource {
+@Path("/epubs")
+public class EpubInfosResource {
 
 	// Allows to insert contextual objects into the class,
 	// e.g. ServletContext, Request, Response, UriInfo
@@ -33,19 +36,19 @@ public class PedInfosResource {
 	// Return the list of todos to the user in the browser
 	@GET
 	@Produces(MediaType.TEXT_XML)
-	public List<PedInfo> getPedInfosBrowser() {
-		List<PedInfo> peds = new ArrayList<PedInfo>();
-		peds.addAll(PedProvider.instance.getPedList().values());
-		return peds;
+	public List<EpubInfo> getEpubInfosBrowser() {
+		List<EpubInfo> epubs = new ArrayList<EpubInfo>();
+		epubs.addAll(EpubProvider.instance.getEpubList().values());
+		return epubs;
 	}
 
 	// Return the list of todos for applications
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<PedInfo> getPedInfos() {
-		List<PedInfo> peds = new ArrayList<PedInfo>();
-		peds.addAll(PedProvider.instance.getPedList().values());
-		return peds;
+	public List<EpubInfo> getEpubInfos() {
+		List<EpubInfo> epubs = new ArrayList<EpubInfo>();
+		epubs.addAll(EpubProvider.instance.getEpubList().values());
+		return epubs;
 	}
 
 	// retuns the number of todos
@@ -55,7 +58,7 @@ public class PedInfosResource {
 	@Path("count")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getCount() {
-		int count = PedProvider.instance.getPedList().size();
+		int count = EpubProvider.instance.getEpubList().size();
 		return String.valueOf(count);
 	}
 
@@ -63,9 +66,9 @@ public class PedInfosResource {
 	// treated as a parameter and passed to the TodoResources
 	// Allows to type http://localhost:8080/de.vogella.jersey.todo/rest/todos/1
 	// 1 will be treaded as parameter todo and passed to TodoResource
-	@Path("{pedInfo}")
-	public PedInfoResource getPedInfo(@PathParam("pedInfo") String id) {
-		return new PedInfoResource(uriInfo, request, id);
+	@Path("{epubInfo}")
+	public EpubInfoResource getEpubInfo(@PathParam("epubInfo") String id) {
+		return new EpubInfoResource(uriInfo, request, id);
 	}
 
 	// Defines that the next path parameter after todos is
@@ -73,15 +76,17 @@ public class PedInfosResource {
 	// Allows to type http://localhost:8080/de.vogella.jersey.todo/rest/todos/1
 	// 1 will be treaded as parameter todo and passed to TodoResource
 	@GET
-	@Path("{pedId}/")
-	@Produces("application/zip")
-	public StreamingOutput getPed(@PathParam("pedId") String id) {
-		final String pedId = id;
+	@Path("{epubId}/")
+	@Produces("application/epub+zip")
+	public StreamingOutput getEpub(@PathParam("epubId") String id){//, @FormParam("key") String key) {
+		final String epubId = id;
+		final String uid = "";//key;
+		//final List<String> keyList = Arrays.asList(key.split(","));
 		return new StreamingOutput() {
 			public void write(OutputStream output) throws IOException,
 					WebApplicationException {
 				try {
-					PedPackager.instance.create(output, pedId);
+					EpubPackager.instance.create(output, epubId, uid);
 				} catch (Exception e) {
 					throw new WebApplicationException(e);
 				}

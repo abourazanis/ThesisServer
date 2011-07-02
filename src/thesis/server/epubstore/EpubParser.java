@@ -1,6 +1,7 @@
-package thesis.server.pedstore;
+package thesis.server.epubstore;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -11,7 +12,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class PedParser {
+import thesis.server.epublib.domain.Author;
+import thesis.server.epublib.domain.Metadata;
+
+public class EpubParser {
 
 	private final static String pedContainerFilePath = "META-INF/container.xml";
 
@@ -24,10 +28,10 @@ public class PedParser {
 	private final static String SUBJECT = "subject";
 	private final static String COVER = "cover";
 
-	public PedParser() {
+	public EpubParser() {
 	}
 
-	public PedInfo parse(String pedPath) {
+	public EpubInfo parse(String pedPath) {
 		String author = "";
 		String title = "";
 		String subject = "";
@@ -82,8 +86,14 @@ public class PedParser {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		PedInfo ped = new PedInfo("", title, subject, author, cover);
+		Metadata meta = new Metadata();
+		meta.addTitle(title);
+		meta.addAuthor(new Author(author));
+		ArrayList<String> list = new ArrayList<String>();
+		list.add(subject);
+		meta.setSubjects(list);
+		EpubInfo ped = new EpubInfo(meta);
+		ped.setCoverUrl(cover);
 		return ped;
 	}
 
