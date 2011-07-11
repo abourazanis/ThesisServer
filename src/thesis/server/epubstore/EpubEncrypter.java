@@ -11,8 +11,6 @@ import java.io.OutputStream;
 import java.io.Reader;
 import java.security.SecureRandom;
 import java.security.Security;
-import java.util.Arrays;
-import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -31,18 +29,20 @@ import thesis.server.epublib.util.ResourceUtil;
 
 public class EpubEncrypter implements EncryptService {
 
-	private static final int iterations = 500;
+	private static final int iterations = 1;
 	private static final int keyLength = 256;
 	private static final SecureRandom random = new SecureRandom();
 	private String pass;
 	private byte[] salt;
 	private byte[] iv;
-
+	
 	private  static long count = 0;
 
-	private final String scriptCommand = "sh /home/tas0s/createLib.sh ";
-	private final String compilePath = "/home/tas0s/libCreator/temp/";
-	private final String nativeCompileEnv = "/home/tas0s/libCreator/orig";
+	private final String scriptCommand = "sh /home/tas0s/thesis.server.WORKING/createLib.sh ";
+	private final String compilePath = "/home/tas0s/thesis.server.WORKING/libCreator/temp/";
+	private final String nativeCompileEnv = "/home/tas0s/thesis.server.WORKING/libCreator/orig";
+	
+	static final String HEXES = "0123456789ABCDEF";
 
 	public EpubEncrypter() {
 		this(null);
@@ -55,8 +55,8 @@ public class EpubEncrypter implements EncryptService {
 //			sb.append(x);
 //		this.pass = sb.toString();
 		// TODO:REMOVE!!
-		this.pass = "E6BF46F4709CEA7A18502D564F70FC81";
-		//this.pass = key;
+		//this.pass = "E6BF46F4709CEA7A18502D564F70FC81";
+		this.pass = key;
 		Security.insertProviderAt(new BouncyCastleProvider(), 1);
 	}
 
@@ -72,8 +72,10 @@ public class EpubEncrypter implements EncryptService {
 		PBEKeySpec keySpec = new PBEKeySpec(passphrase.toCharArray(), salt,
 				iterations, keyLength);
 		SecretKeyFactory keyFactory = SecretKeyFactory
-				.getInstance("PBEWithSHA256And256BitAES-CBC-BC");// PBEWithMD5And256BitAES-CBC-OpenSSL
+				.getInstance("PBEWITHMD5AND256BITAES-CBC-OPENSSL");
+		
 		return keyFactory.generateSecret(keySpec);
+
 	}
 
 	private IvParameterSpec generateIV(Cipher cipher) throws Exception {
@@ -87,19 +89,28 @@ public class EpubEncrypter implements EncryptService {
 	private byte[] encrypt(String passphrase, byte[] plaintext)
 			throws Exception {
 
-		byte[] salt = new byte[8];
-        System.arraycopy(plaintext, 0, salt, 0, 8); 
-		setSalt(salt);
+        byte[] tSalt = new byte[8];
+        random.nextBytes(tSalt);
+        setSalt(tSalt);
 
 		SecretKey key = generateKey(passphrase);
 
-		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding","BC");
-		cipher.init(Cipher.ENCRYPT_MODE, key, generateIV(cipher), random);
+		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+		cipher.init(Cipher.ENCRYPT_MODE, key, generateIV(cipher));
 		int block = cipher.getBlockSize();
-		byte[] encD = cipher.doFinal(plaintext,8,plaintext.length - 8); //to not touch the salt
-		byte[] data = new byte[encD.length + block];
+		byte[] encD = cipher.doFinal(plaintext);
+		byte[] data = new byte[encD.length + block + 8];
 		System.arraycopy(iv, 0, data, 0, block);
-		System.arraycopy(encD, 0, data, block, encD.length);
+		//System.arraycopy(MAGIC_SALTED_BYTES, 0, data, 0, 8);
+		System.arraycopy(salt, 0, data, block, 8);
+		System.arraycopy(encD, 0, data, block+8, encD.length);
+		
+		System.out.println("PlainText size:  " + plaintext.length);
+		System.out.println("Encoded size:  " + encD.length);
+		System.out.println("Final size:  " + data.length);
+		System.out.println("IV " + getHex(iv));
+		System.out.println("Key " + getHex(key.getEncoded()));
+		System.out.println("Salt " + getHex(salt));
 		
 		return data;
 	}
@@ -136,6 +147,7 @@ public class EpubEncrypter implements EncryptService {
 	public Resource encrypt(Resource resource) throws Exception {
 
 		byte[] data = resource.getData();
+		System.out.println("Resource " + resource.getHref());
 		data = encrypt(pass, data);
 		resource.setData(data);
 		return resource;
@@ -162,7 +174,7 @@ public class EpubEncrypter implements EncryptService {
 			DBAccess dao = new DBAccess();
 			//TODO: dynamically decryption method based on some policy
 			String libraryContent = dao.getDecryptionSourceCode(1); 
-			libraryContent = libraryContent.replace("[JAVA_PARSING_KEY]", pass).replace("[JAVA_PARSING_IV]", String.valueOf(iv.length));
+			libraryContent = libraryContent.replace("[DECRYPT_KEY]", pass);
 			IOUtil.writeStringToFile(new File(newPath + "/dec/dec.cpp"), libraryContent, "UTF-8");
 			
 			//execution
@@ -234,6 +246,19 @@ public class EpubEncrypter implements EncryptService {
 	        }
 	    }
 
+	 public static String getHex( byte [] raw ) {
+		    if ( raw == null ) {
+		      return null;
+		    }
+		    final StringBuilder hex = new StringBuilder( 2 * raw.length );
+		    for ( final byte b : raw ) {
+		      hex.append(HEXES.charAt((b & 0xF0) >> 4))
+		         .append(HEXES.charAt((b & 0x0F)));
+		    }
+		    return hex.toString();
+		  }
+	 
+	 
 	/*
 	 * private static String decrypt(String passphrase, byte [] ciphertext)
 	 * throws Exception { SecretKey key = generateKey(passphrase);

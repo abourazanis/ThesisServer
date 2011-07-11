@@ -75,12 +75,12 @@ public class EpubInfosResource {
 	// treated as a parameter and passed to the TodoResources
 	// Allows to type http://localhost:8080/de.vogella.jersey.todo/rest/todos/1
 	// 1 will be treaded as parameter todo and passed to TodoResource
-	@GET
+	@POST
 	@Path("{epubId}/")
 	@Produces("application/epub+zip")
-	public StreamingOutput getEpub(@PathParam("epubId") String id){//, @FormParam("key") String key) {
+	public StreamingOutput getEpub(@PathParam("epubId") String id, @FormParam("key") String key) {
 		final String epubId = id;
-		final String uid = "";//key;
+		final String uid = key;
 		//final List<String> keyList = Arrays.asList(key.split(","));
 		return new StreamingOutput() {
 			public void write(OutputStream output) throws IOException,

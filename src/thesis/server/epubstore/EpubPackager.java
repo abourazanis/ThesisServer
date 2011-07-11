@@ -17,7 +17,7 @@ import thesis.server.epublib.util.IOUtil;
 public enum EpubPackager {
 	instance;
 
-	private final static String tempFolder = "/home/tas0s/tempEpubs/";
+	private final static String tempFolder = "/home/tas0s/thesis.server.WORKING/tempEpubs/";
 	public void create(OutputStream out, String epubId, String key) {
 		DBAccess dao = new DBAccess();
 		final String epubPath = dao.getEpubLocation(Integer.parseInt(epubId));

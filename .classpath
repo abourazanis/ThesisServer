@@ -14,18 +14,12 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jersey">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-			<attribute name="owner.project.facets" value="jst.jaxrs"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/home/tas0s/ds/slf4j-simple-1.6.1.jar"/>
-	<classpathentry kind="lib" path="/home/tas0s/ds/slf4j-api-1.6.1.jar"/>
-	<classpathentry kind="lib" path="/home/tas0s/ds/xmlpull-1.1.3.4d_b4_min.jar"/>
-	<classpathentry kind="lib" path="/home/tas0s/ds/kxml2-2.2.2.jar"/>
-	<classpathentry kind="lib" path="/home/tas0s/ds/junit-3.8.1.jar"/>
+	<classpathentry kind="lib" path="/home/tas0s/thesis.server.WORKING/libs/slf4j-simple-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/home/tas0s/thesis.server.WORKING/libs/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="/home/tas0s/thesis.server.WORKING/libs/xmlpull-1.1.3.4d_b4_min.jar"/>
+	<classpathentry kind="lib" path="/home/tas0s/thesis.server.WORKING/libs/kxml2-2.2.2.jar"/>
+	<classpathentry kind="lib" path="/home/tas0s/thesis.server.WORKING/libs/junit-3.8.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.datatools.connectivity.jdt.DRIVERLIBRARY/MySQL JDBC Driver"/>
-	<classpathentry kind="lib" path="/home/tas0s/Downloads/bcprov-jdk16-146.jar"/>
+	<classpathentry kind="lib" path="/home/tas0s/thesis.server.WORKING/libs/bcprov-jdk16-146.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
