@@ -61,6 +61,27 @@ public class EpubInfosResource {
 		int count = EpubProvider.instance.getEpubList().size();
 		return String.valueOf(count);
 	}
+	
+	
+	@GET
+	@Path("new")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<EpubInfo> getNew() {
+		//TODO: make a different query to fetch the new epubs
+		List<EpubInfo> epubs = new ArrayList<EpubInfo>();
+		epubs.addAll(EpubProvider.instance.getEpubList().values());
+		return epubs;
+	}
+	
+	@GET
+	@Path("toppicks")
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public List<EpubInfo> getTopPicks() {
+		//TODO: make a different query to fetch the top picked epubs
+		List<EpubInfo> epubs = new ArrayList<EpubInfo>();
+		epubs.addAll(EpubProvider.instance.getEpubList().values());
+		return epubs;
+	}
 
 	// Defines that the next path parameter after todos is
 	// treated as a parameter and passed to the TodoResources

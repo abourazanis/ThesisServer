@@ -253,14 +253,9 @@ public class DBAccess {
 					meta.addType(types);
 				}
 
-				// // set descriptions
-				// if (descr.indexOf(",") != -1) {
-				// List<String> dList = Arrays.asList(descr.split(","));
-				// meta.setDescriptions(dList);
-				//
-				// } else {
+				
 				meta.addDescription(descr);
-				// }
+				
 
 				// set rights
 				if (rights.indexOf(",") != -1) {
@@ -348,9 +343,6 @@ public class DBAccess {
 		} catch (SQLException e) {
 			meta = null;
 		}
-		// catch (ParseException e) {
-		// meta = null;
-		// }
 
 		return meta;
 	}
@@ -363,7 +355,7 @@ public class DBAccess {
 		PreparedStatement epubPubStat;
 		try {
 			epubPubStat = getConnection().prepareStatement(
-					"SELECT  epubs.epubItemID AS ID  "
+					"SELECT  epubs.epubItemID AS ID,coverurl  "
 							+ "FROM epubstore.epubItems as epubs ");
 
 			ResultSet setPub = epubPubStat.executeQuery();
@@ -374,6 +366,7 @@ public class DBAccess {
 				EpubInfo epub = new EpubInfo();
 				epub.setMeta(meta);
 				epub.setId(idStr);
+				epub.setCoverUrl(setPub.getString("coverurl"));
 				list.add(epub);
 			}
 		} catch (SQLException e) {
