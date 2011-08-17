@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLStreamException;
@@ -18,7 +19,10 @@ public enum EpubPackager {
 	instance;
 
 	private final static String tempFolder = "/home/tas0s/thesis.server.WORKING/tempEpubs/";
+	
 	public void create(OutputStream out, String epubId, String key) {
+		
+		
 		DBAccess dao = new DBAccess();
 		final String epubPath = dao.getEpubLocation(Integer.parseInt(epubId));
 		try {
@@ -26,8 +30,8 @@ public enum EpubPackager {
 
 			Book epub = (new EpubReader()).readEpub(epubStream);
 			OutputStream str = new FileOutputStream(tempFolder + epub.getTitle()+ ".epub");
-			EpubEncrypter encr = new EpubEncrypter(key);
-			new EpubWriter(encr).write(epub, str);
+			EpubEncryptLoader plLoader = new EpubEncryptLoader(epubId, key);
+			new EpubWriter(plLoader).write(epub, str);
 			IOUtil.closeQuietly(str);
 			InputStream inp = new FileInputStream(tempFolder + epub.getTitle()+ ".epub");
 			IOUtil.copy(inp, out);

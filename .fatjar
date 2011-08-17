@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Sat Aug 06 20:19:12 EEST 2011
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=myplugin.jar
+manifest.mergeall=true
+manifest.mainclass=
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=<po|thesis.server>~thesis/~server/~epubstore/~DBAccess.class;<po|thesis.server>~thesis/~server/~epubstore/~EpubProvider.class;<po|thesis.server>~thesis/~server/~epubstore/~EpubEncryptLoader.class;<po|thesis.server>~thesis/~server/~epubstore/~EpubParser.class;<po|thesis.server>~thesis/~server/~epubstore/~EpubInfo.class;<po|thesis.server>~thesis/~server/~epubstore/~PluginFinder.class;<po|thesis.server>~thesis/~server/~epubstore/~EpubEncrypter.class;<po|thesis.server>~thesis/~server/~epubstore/~EpubPackager.class;<po|thesis.server>~thesis/~server/~epubstore/~JarFilter.class;<po|thesis.server>~thesis/~server/~rest/;<po|thesis.server>~thesis/~server/~epublib/;<jar|tomcat-coyote.jar>;<jar|jsp-api.jar>;<jar|tomcat-util.jar>;<jar|slf4j-api-1.6.1.jar>;<jar|jsr311-api-1.1.1.jar>;<jar|ecj-3.6.jar>;<jar|catalina-ha.jar>;<jar|jersey-core-1.7.jar>;<jar|jasper.jar>;<jar|catalina-ant.jar>;<jar|annotations-api.jar>;<jar|catalina.jar>;<jar|servlet-api.jar>;<jar|jersey-json-1.7.jar>;<jar|jersey-server-1.7.jar>;<jar|asm-3.1.jar>;<jar|bcprov-jdk16-146.jar>;<jar|tomcat-i18n-es.jar>;<jar|slf4j-simple-1.6.1.jar>;<jar|tomcat-dbcp.jar>;<jar|tomcat-i18n-ja.jar>;<jar|kxml2-2.2.2.jar>;<jar|tomcat-api.jar>;<jar|mysql-connector-java-5.1.16-bin.jar>;<jar|xmlpull-1.1.3.4d_b4_min.jar>;<jar|jasper-el.jar>;<jar|jersey-client-1.7.jar>;<jar|catalina-tribes.jar>;<jar|junit-3.8.1.jar>;<jar|tomcat-i18n-fr.jar>;<jar|el-api.jar>;<jar|asm-3.1.jar>;<jar|jersey-client-1.7.jar>;<jar|jersey-core-1.7.jar>;<jar|jersey-json-1.7.jar>;<jar|jersey-server-1.7.jar>;<jar|jsr311-api-1.1.1.jar>;<jar|mysql-connector-java-5.1.16-bin.jar>;<jar|slf4j-simple-1.6.1.jar>;<jar|slf4j-api-1.6.1.jar>;<jar|xmlpull-1.1.3.4d_b4_min.jar>;<jar|kxml2-2.2.2.jar>;<jar|mysql-connector-java-5.1.16-bin.jar>
+includes=

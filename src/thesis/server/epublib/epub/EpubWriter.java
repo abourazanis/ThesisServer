@@ -21,6 +21,7 @@ import thesis.server.epublib.domain.Resource;
 import thesis.server.epublib.service.EncryptService;
 import thesis.server.epublib.service.MediatypeService;
 import thesis.server.epublib.util.IOUtil;
+import thesis.server.epubstore.EpubEncryptLoader;
 
 /**
  * Generates an epub file. Not thread-safe, single use object.
@@ -37,14 +38,14 @@ public class EpubWriter {
 	
 	private BookProcessor bookProcessor = BookProcessor.IDENTITY_BOOKPROCESSOR;
 	
-	private EncryptService encrypter;
+	private EpubEncryptLoader encrypter;
 	
-	public EpubWriter(EncryptService encrypter){
+	public EpubWriter(EpubEncryptLoader encrypter){
 		this();
 		this.encrypter = encrypter;
 	}
 	
-	public EpubWriter(EncryptService encrypter, BookProcessor bookProcessor){
+	public EpubWriter(EpubEncryptLoader encrypter, BookProcessor bookProcessor){
 		this(bookProcessor);
 		this.encrypter = encrypter;
 	}

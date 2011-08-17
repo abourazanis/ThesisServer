@@ -50,12 +50,6 @@ public class EpubEncrypter implements EncryptService {
 
 	public EpubEncrypter(String key) {
 		super();
-//		StringBuilder sb = new StringBuilder();
-//		for (String x : keys)
-//			sb.append(x);
-//		this.pass = sb.toString();
-		// TODO:REMOVE!!
-		//this.pass = "E6BF46F4709CEA7A18502D564F70FC81";
 		this.pass = key;
 		Security.insertProviderAt(new BouncyCastleProvider(), 1);
 	}
@@ -257,15 +251,5 @@ public class EpubEncrypter implements EncryptService {
 		    }
 		    return hex.toString();
 		  }
-	 
-	 
-	/*
-	 * private static String decrypt(String passphrase, byte [] ciphertext)
-	 * throws Exception { SecretKey key = generateKey(passphrase);
-	 * 
-	 * Cipher cipher = Cipher.getInstance("AES/CTR/NOPADDING");
-	 * cipher.init(Cipher.DECRYPT_MODE, key, generateIV(cipher), random); return
-	 * new String(cipher.doFinal(ciphertext)); }
-	 */
 
 }

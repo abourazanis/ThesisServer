@@ -3,7 +3,6 @@ package thesis.server.rest;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
@@ -23,6 +22,7 @@ import thesis.server.epubstore.EpubInfo;
 import thesis.server.epubstore.EpubPackager;
 import thesis.server.epubstore.EpubProvider;
 
+
 @Path("/epubs")
 public class EpubInfosResource {
 
@@ -33,19 +33,10 @@ public class EpubInfosResource {
 	@Context
 	Request request;
 
-	// Return the list of todos to the user in the browser
-	@GET
-	@Produces(MediaType.TEXT_XML)
-	public List<EpubInfo> getEpubInfosBrowser() {
-		List<EpubInfo> epubs = new ArrayList<EpubInfo>();
-		epubs.addAll(EpubProvider.instance.getEpubList().values());
-		return epubs;
-	}
-
 	// Return the list of todos for applications
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<EpubInfo> getEpubInfos() {
+	public List<EpubInfo> getEpubInfos() {		
 		List<EpubInfo> epubs = new ArrayList<EpubInfo>();
 		epubs.addAll(EpubProvider.instance.getEpubList().values());
 		return epubs;
@@ -102,6 +93,28 @@ public class EpubInfosResource {
 	public StreamingOutput getEpub(@PathParam("epubId") String id, @FormParam("key") String key) {
 		final String epubId = id;
 		final String uid = key;
+		//final List<String> keyList = Arrays.asList(key.split(","));
+		return new StreamingOutput() {
+			public void write(OutputStream output) throws IOException,
+					WebApplicationException {
+				try {
+					EpubPackager.instance.create(output, epubId, uid);
+				} catch (Exception e) {
+					throw new WebApplicationException(e);
+				}
+			}
+		};
+
+	}
+	
+	
+	//for test puproses
+	@GET
+	@Path("{epubId}/")
+	@Produces("application/epub+zip")
+	public StreamingOutput getEpub(@PathParam("epubId") String id) {
+		final String epubId = id;
+		final String uid = "E6BF46F4709CEA7A18502D564F70FC81";
 		//final List<String> keyList = Arrays.asList(key.split(","));
 		return new StreamingOutput() {
 			public void write(OutputStream output) throws IOException,

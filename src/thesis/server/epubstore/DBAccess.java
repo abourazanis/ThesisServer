@@ -181,8 +181,28 @@ public class DBAccess {
 			prest.setInt(1, securityMethodID);
 
 			ResultSet set = prest.executeQuery();
-			if(set.next())
+			if (set.next())
 				src = set.getString("src");
+		} catch (SQLException e) {
+			src = null;
+		}
+		return src;
+	}
+
+	public String getPluginName(int epubId) throws SQLException {
+		String src = null;
+
+		try {
+			PreparedStatement prest = getConnection()
+					.prepareStatement(
+							"select pluginName from securityPlugins "
+									+ "inner join epubItems on epubItems.securityPlugins_Id = securityPlugins.Id "
+									+ "where epubItems.epubItemID = ?");
+			prest.setInt(1, epubId);
+
+			ResultSet set = prest.executeQuery();
+			if (set.next())
+				src = set.getString("pluginName");
 		} catch (SQLException e) {
 			src = null;
 		}
@@ -253,9 +273,7 @@ public class DBAccess {
 					meta.addType(types);
 				}
 
-				
 				meta.addDescription(descr);
-				
 
 				// set rights
 				if (rights.indexOf(",") != -1) {
@@ -387,7 +405,7 @@ public class DBAccess {
 			prest.setInt(1, epubID);
 
 			ResultSet set = prest.executeQuery();
-			if(set.next())
+			if (set.next())
 				location = set.getString("location");
 		} catch (SQLException e) {
 			location = null;
