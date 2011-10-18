@@ -22,7 +22,7 @@ import thesis.server.plugins.EncDecPlugin;
 public class EpubEncryptLoader {
 
 	private static long count = 0;
-	private final String scriptCommand = "/home/tas0s/thesis.server.WORKING/createLib.sh ";
+	private final String scriptCommand = "/home/tas0s/thesis.server.WORKING/createLib.sh";
 	private final String compilePath = "/home/tas0s/thesis.server.WORKING/libCreator/temp/";
 	private final String nativeCompileEnv = "/home/tas0s/thesis.server.WORKING/libCreator/orig";
 
