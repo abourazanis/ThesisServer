@@ -1,18 +1,14 @@
 package thesis.server.epubstore;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -26,16 +22,13 @@ import thesis.server.plugins.EncDecPlugin;
 public class EpubEncryptLoader {
 
 	private static long count = 0;
-	private final String scriptCommand = "sh /home/tas0s/thesis.server.WORKING/createLib.sh ";
+	private final String scriptCommand = "/home/tas0s/thesis.server.WORKING/createLib.sh ";
 	private final String compilePath = "/home/tas0s/thesis.server.WORKING/libCreator/temp/";
 	private final String nativeCompileEnv = "/home/tas0s/thesis.server.WORKING/libCreator/orig";
-	private final static String pluginsDir = "/home/tas0s/thesis.server.WORKING/libCreator/plugins/";
 
 	private String epubId;
 	private String key;
-
 	private EncDecPlugin encdecrypter;
-	private PluginFinder finder;
 
 	public EpubEncryptLoader(String id, String key) {
 		this.epubId = id;
@@ -58,7 +51,7 @@ public class EpubEncryptLoader {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private Resource generateDecryptLib() {
@@ -79,18 +72,7 @@ public class EpubEncryptLoader {
 					libraryContent, "UTF-8");
 
 			// execution
-			Runtime rt = Runtime.getRuntime();
-			Process proc = rt.exec(scriptCommand + newPath);
-			InputStream stderr = proc.getErrorStream();
-			InputStreamReader isr = new InputStreamReader(stderr);
-			BufferedReader br = new BufferedReader(isr);
-			String line = null;
-			System.out.println("<Compile native lib>");
-			while ((line = br.readLine()) != null)
-				System.out.println(line);
-			System.out.println("</Compile native lib>");
-			int exitVal = proc.waitFor();
-			System.out.println("Process exitValue: " + exitVal);
+			executeCommand(scriptCommand , newPath);
 
 			// resource creation
 			lib = ResourceUtil.createResource(new File(newPath
@@ -106,10 +88,35 @@ public class EpubEncryptLoader {
 		return lib;
 	}
 
+	public void executeCommand(String cmd, String argument) throws IOException, InterruptedException {
+		
+		// build the system command we want to run
+	    List<String> commands = new ArrayList<String>();
+	    commands.add(cmd);
+	    commands.add(argument);
+
+	    // execute the command
+	    SystemCommandExecutor commandExecutor = new SystemCommandExecutor(commands);
+	    int result = commandExecutor.executeCommand();
+
+	    // get the stdout and stderr from the command that was run
+	    StringBuilder stdout = commandExecutor.getStandardOutputFromCommand();
+	    StringBuilder stderr = commandExecutor.getStandardErrorFromCommand();
+	    
+	    // print the stdout and stderr
+	    System.out.println("The numeric result of the command was: " + result);
+	    System.out.println("STDOUT:");
+	    System.out.println(stdout);
+	    System.out.println("STDERR:");
+	    System.out.println(stderr);
+		
+	}
+
 	public void writeDecryptLib(ZipOutputStream resultStream)
 			throws IOException {
-		
-		if(encdecrypter == null) return;
+
+		if (encdecrypter == null)
+			return;
 		Resource lib = generateDecryptLib();
 		try {
 			resultStream.putNextEntry(new ZipEntry("META-INF/libdec.so"));

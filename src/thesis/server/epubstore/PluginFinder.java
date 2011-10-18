@@ -6,6 +6,7 @@ import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.options.addpluginsfrom.OptionReportAfter;
 import net.xeoh.plugins.base.options.getplugin.OptionCapabilities;
+import net.xeoh.plugins.base.util.uri.ClassURI;
 import thesis.server.plugins.EncDecPlugin;
 
 /*
@@ -38,8 +39,8 @@ public class PluginFinder {
 		// prop.setProperty(PluginManager.class, "logging.level", "FINEST");
 
 		pm = PluginManagerFactory.createPluginManager();
-		//pm.addPluginsFrom(ClassURI.CLASSPATH, new OptionReportAfter());
-		pm.addPluginsFrom(new File("/opt/apache-tomcat-7.0.11/lib/encdec_plugins.jar").toURI(),new OptionReportAfter());
+		pm.addPluginsFrom(ClassURI.CLASSPATH, new OptionReportAfter());
+		//pm.addPluginsFrom(new File("/opt/apache-tomcat-7.0.11/lib/encdec_plugins.jar").toURI(),new OptionReportAfter());
 	}
 
 	public EncDecPlugin getPlugin(String name) {

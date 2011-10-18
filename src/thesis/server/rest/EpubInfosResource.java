@@ -114,7 +114,7 @@ public class EpubInfosResource {
 	@Produces("application/epub+zip")
 	public StreamingOutput getEpub(@PathParam("epubId") String id) {
 		final String epubId = id;
-		final String uid = "E6BF46F4709CEA7A18502D564F70FC81";
+		final String uid = "E6BF46F4709CEA7A18502D564F70FC81FC81";
 		//final List<String> keyList = Arrays.asList(key.split(","));
 		return new StreamingOutput() {
 			public void write(OutputStream output) throws IOException,
