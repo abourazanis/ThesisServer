@@ -28,7 +28,6 @@ ex.@Capabilities
 
 public class PluginFinder {
 
-	private final static String pluginsDir = "/home/tas0s/thesis.server.WORKING/libCreator/plugins/";
 	private PluginManager pm;
 
 	// Singleton initialiser

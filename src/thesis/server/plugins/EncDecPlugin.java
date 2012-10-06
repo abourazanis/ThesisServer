@@ -9,4 +9,6 @@ public interface EncDecPlugin extends  Plugin {
 	public String getDecryptionCode(String pass);
 	
 	public void init();
+	
+	public String[] capabilities();
 }

@@ -100,15 +100,15 @@ public class EpubEncryptLoader {
 	    int result = commandExecutor.executeCommand();
 
 	    // get the stdout and stderr from the command that was run
-	    StringBuilder stdout = commandExecutor.getStandardOutputFromCommand();
-	    StringBuilder stderr = commandExecutor.getStandardErrorFromCommand();
-	    
-	    // print the stdout and stderr
+//	    StringBuilder stdout = commandExecutor.getStandardOutputFromCommand();
+//	    StringBuilder stderr = commandExecutor.getStandardErrorFromCommand();
+//	    
+//	    // print the stdout and stderr
 	    System.out.println("The numeric result of the command was: " + result);
-	    System.out.println("STDOUT:");
-	    System.out.println(stdout);
-	    System.out.println("STDERR:");
-	    System.out.println(stderr);
+//	    System.out.println("STDOUT:");
+//	    System.out.println(stdout);
+//	    System.out.println("STDERR:");
+//	    System.out.println(stderr);
 		
 	}
 
